@@ -1,0 +1,16 @@
+.sign-up {
+    display: flex;
+    flex-direction: column;
+    width: 380px;
+  
+    .title {
+      margin: 10px 0;
+    }
+    .radio-container {
+      // border: 1px solid black;
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 30px;
+    }
+  }
+  
