@@ -1,14 +1,14 @@
 import axios from 'axios';
 
 export const addItemToCart = (cartItems, cartItemToAdd) => {
-	console.log(cartItemToAdd, 'tolooonggg');
-	const { id } = cartItemToAdd;
-	const userId = localStorage.getItem('userId');
-	const dataToCart = {
-		idProduct: id,
-		qty: 1,
-	};
-	console.log(id, userId)
+	// console.log(cartItemToAdd, 'tolooonggg');
+	// const { id } = cartItemToAdd;
+	// const userId = localStorage.getItem('userId');
+	// const dataToCart = {
+	// 	idProduct: id,
+	// 	qty: 1,
+	// };
+	// console.log(id, userId)
 	// console.log('userId', localStorage.getItem('userId'));
 
 	// console.log('Token', localStorage.getItem('jwtToken'));
@@ -16,33 +16,33 @@ export const addItemToCart = (cartItems, cartItemToAdd) => {
 
 	// console.log('currentCart', cartItems)
 	// console.log('cartItemToAdd', cartItemToAdd);
-	// const existingCartItem = cartItems.find(
-	// 	(cartItem) => cartItem.id === cartItemToAdd.id,
-	// );
-	// // console.log('Existing Item', existingCartItem)
+	const existingCartItem = cartItems.find(
+		(cartItem) => cartItem.id === cartItemToAdd.id,
+	);
+	// console.log('Existing Item', existingCartItem)
 
-	// if (existingCartItem) {
-	// 	return cartItems.map(
-	// 		(cartItem) =>
-	// 			cartItem.id === cartItemToAdd.id
-	// 				? { ...cartItem, quantity: cartItem.quantity + 1 }
-	// 				: cartItem,
-	// 	);
-	// }
+	if (existingCartItem) {
+		return cartItems.map(
+			(cartItem) =>
+				cartItem.id === cartItemToAdd.id
+					? { ...cartItem, quantity: cartItem.quantity + 1 }
+					: cartItem,
+		);
+	}
 
-	// return [ ...cartItems, { ...cartItemToAdd, quantity: 1 } ];
+	return [ ...cartItems, { ...cartItemToAdd, quantity: 1 } ];
 
-	axios
-		.post(
-			`http://127.0.0.1:8000/api/customer/${userId}/cart`,
-			dataToCart,
-		)
-		.then((res) => {
-			console.log(res, 'axiosss');
-		})
-		.catch((err) => {
-			console.log(err);
-		});
+	// axios
+	// 	.post(
+	// 		`http://127.0.0.1:8000/api/customer/${userId}/cart`,
+	// 		dataToCart,
+	// 	)
+	// 	.then((res) => {
+	// 		console.log(res, 'axiosss');
+	// 	})
+	// 	.catch((err) => {
+	// 		console.log(err);
+	// 	});
 };
 
 export const removeItemFromCart = (cartItems, cartItemToRemove) => {

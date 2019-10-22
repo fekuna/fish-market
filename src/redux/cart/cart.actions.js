@@ -7,26 +7,60 @@ export const toggleCartHidden = () => ({
 
 export const getCartItems = () => (dispatch) => {
 	const userId = localStorage.getItem('userId');
-	axios
+	return axios
 		.get(`http://127.0.0.1:8000/api/customer/${userId}/cart`)
 		.then((res) => {
-			console.log(res.data.data, 'aaweeee')
+			// console.log(res.data.data, 'aaweeee');
 			dispatch({
 				type: CartActionTypes.GET_CART_ITEMS,
 				payload: res.data.data,
 			});
+			return res.data.data
 		})
 		.catch((err) => {
 			console.log(err);
 		});
 };
 
-export const addItem = (item) => {
-	console.log('addItem', item)
-	return {
-		type: CartActionTypes.ADD_ITEM,
-		payload: item,
+export const addItem = (item) => (dispatch) => {
+	console.log('addItem', item);
+	const { id } = item;
+	const userId = localStorage.getItem('userId');
+	const token = localStorage.getItem('jwtToken');
+	const dataToCart = {
+		idProduct: id,
+		qty: 1,
 	};
+	const dataToReducer = {
+		...item,
+		productQty: 1
+	}
+	console.log('uwoooo', dataToReducer)
+
+	axios
+		.post(
+			`http://127.0.0.1:8000/api/customer/${userId}/cart`,
+			dataToCart,
+			{
+				headers: {
+					Authorization: token,
+				},
+			},
+		)
+		.then((res) => {
+			dispatch({
+				type: CartActionTypes.ADD_ITEM,
+				payload: dataToReducer,
+			});
+		})
+		.catch((err) => {
+			console.log(err);
+		});
+
+	// return {
+	// 	type: CartActionTypes.ADD_ITEM,
+	// 	payload: item,
+	// };
 };
 
 export const removeItem = (item) => ({
